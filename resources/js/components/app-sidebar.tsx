@@ -15,6 +15,7 @@ import {
 import type { NavItem } from '@/types';
 import AppLogo from './app-logo';
 import { dashboard } from '@/routes';
+import { BanknotesIcon } from '@heroicons/react/24/outline';
 
 const mainNavItems: NavItem[] = [
     {
@@ -22,6 +23,12 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
+
+    {
+        title: 'Contas',
+        href: route('accounts.index'),
+        icon: BanknotesIcon
+    }
 ];
 
 const footerNavItems: NavItem[] = [

@@ -30,11 +30,11 @@ class AccountController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name ' => 'required|string|max:255',
-            'initial_balance' => 'required|numeric',
+            'name' => 'required|string|max:255',
+            'initial_balance' => 'required|numeric|min:0',
         ]);
 
-        auth()->user()->accounts()->create($validated);
+        $account = auth()->user()->accounts()->create($validated);
 
         return redirect()->back()->with('success', 'Conta criada com sucesso!');
     }
@@ -50,6 +50,7 @@ class AccountController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'initial_balance' => 'required|numeric|min:0',
         ]); 
 
         $account->update($validated);
