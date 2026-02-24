@@ -1,25 +1,53 @@
-# Laravel + React Starter Kit
+# Gestão Financeira - Laravel + React
 
-## Introduction
+Aplicação web para controle de finanças pessoais desenvolvida com Laravel 12 e React.
 
-Our React starter kit provides a robust, modern starting point for building Laravel applications with a React frontend using [Inertia](https://inertiajs.com).
+## 🚀 Tecnologias
 
-Inertia allows you to build modern, single-page React applications using classic server-side routing and controllers. This lets you enjoy the frontend power of React combined with the incredible backend productivity of Laravel and lightning-fast Vite compilation.
+- **Backend:** Laravel 12, MySQL, Laravel Starter Kit React
+- **Frontend:** React, TypeScript, Inertia.js, TailwindCSS, shadcn/ui
+- **Autenticação:** Laravel Built-in / WorkOS AuthKit
+- **Ferramentas:** Vite, ESLint, Prettier
 
-This React starter kit utilizes React 19, TypeScript, Tailwind, and the [shadcn/ui](https://ui.shadcn.com) and [radix-ui](https://www.radix-ui.com) component libraries.
+## 📋 Funcionalidades
 
-## Official Documentation
+### Fase 1 - Básico
 
-Documentation for all Laravel starter kits can be found on the [Laravel website](https://laravel.com/docs/starter-kits).
+- [ ] Autenticação de usuários
+- [ ] Dashboard com resumo financeiro
+- [ ] CRUD de transações (receitas/despesas)
+- [ ] Categorias personalizáveis
 
-## Contributing
+### Fase 2 - Intermediário
 
-Thank you for considering contributing to our starter kit! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- [ ] Contas bancárias múltiplas
+- [ ] Transferências entre contas
+- [ ] Relatórios mensais
+- [ ] Gráficos interativos
 
-## Code of Conduct
+### Fase 3 - Avançado
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- [ ] Metas de economia
+- [ ] Orçamentos mensais
+- [ ] Importação de extratos
+- [ ] Backup/exportação de dados
 
-## License
+## 🛠️ Como executar
 
-The Laravel + React starter kit is open-sourced software licensed under the MIT license.
+Siga estes passos para configurar o projeto localmente.
+
+### 1. Pré-requisitos
+
+- PHP >= 8.2
+- Composer
+- Extensão PHP para `sqlite3`
+
+### 2. Passos
+
+1. Clone o repositório: `[https://github.com/davimart1ns/gestao-financeira.git](https://github.com/davimart1ns/gestao-financeira.git)`
+
+2. Instale as dependências: `npm install`
+3. Configure o `.env`: `cp .env.example .env`
+4. Crie o arquivo do banco: `touch database/database.sqlite`
+5. Rode as migrations e seeders: `php artisan migrate`
+6. Inicie o servidor: `php artisan serve`
