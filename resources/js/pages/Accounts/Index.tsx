@@ -2,7 +2,7 @@ import { Head, router, useForm, usePage } from "@inertiajs/react";
 import AppLayout from '@/layouts/app-layout';
 import { Account } from "@/types/Account";
 import { useState, useEffect } from "react";
-import AccountCard from "@/components/AccountCard";
+import AccountCard from "@/components/AccountCard"; 
 import AccountModal from "@/components/AccountModal";
 import { Button } from "@/components/ui/button";
 import {

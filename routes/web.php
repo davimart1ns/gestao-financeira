@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,6 +22,9 @@ Route::middleware(['auth'])->group(function () {
         ->except(['show', 'create', 'edit']);
 
     Route::resource('accounts.transactions', TransactionController::class)
+        ->except(['show', 'create', 'edit']);
+
+    Route::resource('categories', CategoryController::class)
         ->except(['show', 'create', 'edit']);
 });
 

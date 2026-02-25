@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid, TagIcon } from 'lucide-react';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -28,6 +28,12 @@ const mainNavItems: NavItem[] = [
         title: 'Contas',
         href: route('accounts.index'),
         icon: BanknotesIcon
+    },
+
+    {
+        title: 'Categorias',
+        href: route('categories.index'),
+        icon: TagIcon
     }
 ];
 
