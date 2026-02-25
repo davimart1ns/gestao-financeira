@@ -1,36 +1,44 @@
-# Gestão Financeira - Laravel + React
+💰 Gestão Financeira Pessoal
 
-Aplicação web para controle de finanças pessoais desenvolvida com Laravel 12 e React.
+Aplicação completa para controle de finanças pessoais desenvolvida com Laravel 12 e React.
+Este projeto foi criado para ajudar usuários a gerenciar suas finanças de forma simples e intuitiva,
+com visualização clara de receitas, despesas e saldo.
 
-## 🚀 Tecnologias
+🎯 Objetivo
+Oferecer uma ferramenta prática para o dia a dia financeiro, com interface amigável e dados em tempo real.
 
-- **Backend:** Laravel 12, MySQL, Laravel Starter Kit React
-- **Frontend:** React, TypeScript, Inertia.js, TailwindCSS, shadcn/ui
-- **Autenticação:** Laravel Built-in / WorkOS AuthKit
-- **Ferramentas:** Vite, ESLint, Prettier
+🚀 Principais funcionalidades
 
-## 📋 Funcionalidades
+- Cadastro e gerenciamento de contas (bancos, carteiras, etc.)
+- Registro de transações (receitas/despesas)
+- Categorização de gastos
+- Dashboard com gráficos e resumos
+- Relatórios mensais
+- Histórico completo de movimentações
 
-### Fase 1 - Básico
+🛠️ Stack utilizada
 
-- [ ] Autenticação de usuários
-- [ ] Dashboard com resumo financeiro
-- [ ] CRUD de transações (receitas/despesas)
-- [ ] Categorias personalizáveis
+- Backend: Laravel 12 (PHP 8.2)
+- Frontend: React 19 + TypeScript
+- Roteamento e comunicação: Inertia.js
+- Estilização: TailwindCSS + shadcn/ui
+- Banco de dados: MySQL (ou SQLite em desenvolvimento)
+- Autenticação: Laravel Breeze com React
 
-### Fase 2 - Intermediário
+📊 Estrutura do banco de dados
 
-- [ ] Contas bancárias múltiplas
-- [ ] Transferências entre contas
-- [ ] Relatórios mensais
+- users: informações dos usuários
+- accounts: contas bancárias/carteiras
+- categories: categorias de transações
+- transactions: receitas e despesas
+
+📈 Próximos passos
+
 - [ ] Gráficos interativos
-
-### Fase 3 - Avançado
-
 - [ ] Metas de economia
 - [ ] Orçamentos mensais
-- [ ] Importação de extratos
-- [ ] Backup/exportação de dados
+- [ ] Importação de extratos bancários
+- [ ] Backup e exportação de dados
 
 ## 🛠️ Como executar
 
@@ -51,3 +59,4 @@ Siga estes passos para configurar o projeto localmente.
 4. Crie o arquivo do banco: `touch database/database.sqlite`
 5. Rode as migrations e seeders: `php artisan migrate`
 6. Inicie o servidor: `php artisan serve`
+

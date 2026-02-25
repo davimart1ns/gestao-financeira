@@ -2,6 +2,7 @@ import { Account } from "@/types/Account";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { Link } from "@inertiajs/react";
 
 export default function AccountCard({
     account,
@@ -17,7 +18,9 @@ export default function AccountCard({
             <CardContent className="p-4">
                 <div className="flex justify-between items-start">
                     <div>
-                        <h3 className="font-semibold text-lg">{account.name}</h3>
+                        <Link href={route('accounts.transactions.index', account.id)}>
+                        <h3 className="font-semibold text-lg hover:text-blue-600">{account.name}</h3>
+                        </Link>
                         <p className="text-2xl font-bold text-green-600 mt-2">R$ {account.initial_balance?.toFixed(2)}</p>
                     </div>
                     
