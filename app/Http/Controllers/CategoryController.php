@@ -10,6 +10,8 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+use function Pest\Laravel\session;
+
 class CategoryController extends Controller
 {
     use AuthorizesRequests;
@@ -23,7 +25,7 @@ class CategoryController extends Controller
             ->get();
 
         return Inertia::render('Categories/Index', [
-            'categories' => $categories,
+            'categories' => $categories
         ]);
     }
 
@@ -58,7 +60,7 @@ class CategoryController extends Controller
         ]);
 
         $category->update($validated);
-        
+
         return redirect()->back()->with('success', 'Categoria atualizada com sucesso!');
     }
 
@@ -69,7 +71,7 @@ class CategoryController extends Controller
     {
         $this->authorize('delete', $category);
 
-        if($category->transactions()->exists()) {
+        if ($category->transactions()->exists()) {
             return redirect()->back()->with('error', 'Não é possivel excluir categoria com transações!');
         }
 

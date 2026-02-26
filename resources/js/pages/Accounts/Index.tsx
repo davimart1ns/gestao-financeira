@@ -8,33 +8,44 @@ import { Button } from "@/components/ui/button";
 import {
     PlusIcon
 } from "@heroicons/react/24/outline";
+import { CheckCircle, CheckCircle2, XCircle } from "lucide-react";
 
 
 interface Props {
-    accounts: Account[]
+    accounts: Account[];
+    flash?: {
+        success?: string;
+        error?: string;
+    };
 }
-export default function Index({ accounts }: Props) {
+export default function Index({ accounts, flash }: Props) {
     const [isOpen, setIsOpen] = useState(false);
     const [editingAccount, setEditingAccount] = useState<Account | null>(null);
     const [showSuccess, setShowSuccess] = useState(false)
     const [successMessage, setSuccessMessage] = useState('')
+    const [toastType, setToastType] = useState<'success' | 'error'>('success');
 
-    const page = usePage();
-    const flash = page.props.flash || {};
 
     useEffect(() => {
-        if (flash.success) {
-            setSuccessMessage(flash.success)
+        if (flash?.success) {
+            setSuccessMessage(flash.success);
+            setToastType('success');
+            setShowSuccess(true);
+        } else if (flash?.error) {
+            setSuccessMessage(flash.error);
+            setToastType('error');
             setShowSuccess(true)
-
-            // esconder a mensagem apos 5 segundos
-            const timer = setTimeout(() => {
-                setShowSuccess(false)
-            }, 5000)
-
-            return () => clearTimeout(timer)
         }
-    }, [flash.success])
+    }, [flash]);
+
+    useEffect(() => {
+        if (showSuccess) {
+            const timer = setTimeout(() => {
+                setShowSuccess(false);
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [showSuccess]);
 
     const { data, setData, post, put, reset, processing, errors } = useForm({
         name: "",
@@ -88,6 +99,15 @@ export default function Index({ accounts }: Props) {
     return (
         <AppLayout>
             <Head title="Contas" />
+            {showSuccess && (
+                <div className={`fixed top-4 right-4 z-50 flex items-center gap-2 rounded-lg p-4 shadow-lg ${toastType === 'success' ? 'bg-green-500' : 'bg-red-500'} animate-in text-white slide-in-from-top-5 fade-in`}>
+                    {toastType === 'success' ? (
+                        <CheckCircle2 className="h-5 w-5" />) : (
+                        <XCircle className="h-5 w-5" />
+                    )}
+                    <span>{successMessage}</span>
+                </div>
+            )}
 
             <div className="flex flex-col gap-6 p-6">
                 <div className="flex items-center justify-between">
@@ -101,11 +121,6 @@ export default function Index({ accounts }: Props) {
                     </Button>
                 </div>
 
-                {showSuccess && (
-                    <div className="bg-green-100 text-green-700 p-4 rounded-lg">
-                        {successMessage}
-                    </div>
-                )}
 
                 {accounts.length === 0 ? (
                     <div className="text-center py-16 bg-muted/20 rounded-lg">

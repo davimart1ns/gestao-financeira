@@ -8,17 +8,19 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+use function Pest\Laravel\session;
+
 class AccountController extends Controller
 {
-     use AuthorizesRequests;
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $accounts = auth()->user()->accounts()
-        ->withSum('transactions as total_balance', 'amount')
-        ->get();
+            ->withSum('transactions as total_balance', 'amount')
+            ->get();
 
         return Inertia::render('Accounts/Index', [
             'accounts' => $accounts
@@ -41,7 +43,7 @@ class AccountController extends Controller
         return redirect()->back()->with('success', 'Conta criada com sucesso!');
     }
 
-   
+
 
     /**
      * Update the specified resource in storage.
@@ -53,7 +55,7 @@ class AccountController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'initial_balance' => 'required|numeric|min:0',
-        ]); 
+        ]);
 
         $account->update($validated);
 

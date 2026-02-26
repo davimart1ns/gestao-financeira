@@ -8,29 +8,44 @@ import CategoryModal from "@/components/CategoryModal"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import CategoryCard from "@/components/CategoryCard"
 import { router } from '@inertiajs/react'
+import { CheckCircle2, XCircle } from "lucide-react"
 
 interface Props {
-    categories: Category[]
+    categories: Category[];
+    flash?: {
+        success?: string;
+        error?: string;
+    }
 }
 
-export default function Index({ categories }: Props) {
+export default function Index({ categories, flash }: Props) {
     const [isOpen, setIsOpen] = useState(false);
     const [editingCategory, setEditingCategory] = useState<Category | null>(null);
     const [showSuccess, setShowSuccess] = useState(false);
     const [successMessage, setSucccessMessage] = useState('');
+    const [toastType, setToastType] = useState<'success' | 'error'>('success');
 
-    const page = usePage();
-    const flash = page.props.flash || {};
 
     useEffect(() => {
-        if (flash.success) {
-            setSucccessMessage(flash.sucess);
+        if (flash?.success) {
+            setSucccessMessage(flash.success);
+            setToastType('success');
             setShowSuccess(true);
-            const timer = setTimeout(() => setShowSuccess(false),
-                3000);
-            return () => clearTimeout(timer);
+        } else if (flash?.error) {
+            setSucccessMessage(flash.error);
+            setToastType('error');
+            setShowSuccess(true);
         }
     }, [flash])
+
+    useEffect(() => {
+        if (showSuccess) {
+            const timer = setTimeout(() => {
+                setShowSuccess(false);
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [showSuccess])
 
     const { data, setData, post, put, reset, processing, errors } = useForm({
         name: '',
@@ -90,6 +105,15 @@ export default function Index({ categories }: Props) {
     return (
         <AppLayout>
             <Head title="Categorias" />
+            {showSuccess && (
+                <div className={`fixed top-4 right-4 z-50 flex items-center gap-2 rounded-lg p-4 shadow-lg ${toastType === 'success' ? 'bg-green-500' : 'bg-red-500'} animate-in text-white slide-in-from-top-5 fade-in`}>
+                    {toastType === 'success' ? (
+                        <CheckCircle2 className="h-5 w-5" />) : (
+                        <XCircle className="h-5 w-5" />
+                    )}
+                    <span>{successMessage}</span>
+                </div>
+            )}
 
             <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
@@ -104,12 +128,6 @@ export default function Index({ categories }: Props) {
                     </Button>
                 </div>
 
-                {showSuccess && (
-                    <div className="bg-green-100 text-green-700 p-4 rounded-lg">
-                        {successMessage}
-                    </div>
-                )}
-
                 <div className="grid md:grid-cols-2 gap-6">
                     <Card>
                         <CardHeader>
@@ -122,10 +140,10 @@ export default function Index({ categories }: Props) {
                                 : (
                                     incomeCategories.map(cat => (
                                         <CategoryCard
-                                        key={cat.id}
-                                        category={cat}
-                                        onEdit={openEdit}
-                                        onDelete={handleDelete}/>
+                                            key={cat.id}
+                                            category={cat}
+                                            onEdit={openEdit}
+                                            onDelete={handleDelete} />
                                     ))
                                 )}
 
@@ -143,10 +161,10 @@ export default function Index({ categories }: Props) {
                                 : (
                                     expenseCategories.map(cat => (
                                         <CategoryCard
-                                        key={cat.id}
-                                        category={cat}
-                                        onEdit={openEdit}
-                                        onDelete={handleDelete}/>
+                                            key={cat.id}
+                                            category={cat}
+                                            onEdit={openEdit}
+                                            onDelete={handleDelete} />
                                     ))
                                 )}
 
