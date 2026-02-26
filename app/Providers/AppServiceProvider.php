@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\CategoryController;
 use App\Models\Account;
+use App\Models\Category;
 use App\Models\Transaction;
 use App\Policies\AccountPolicy;
+use App\Policies\CategoryPolicy;
 use App\Policies\TransactionPolicy;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
@@ -30,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDefaults();
         Gate::policy(Account::class, AccountPolicy::class);
+        Gate::policy(Category::class, CategoryPolicy::class);
         Gate::policy(Transaction::class, TransactionPolicy::class);
     }
 

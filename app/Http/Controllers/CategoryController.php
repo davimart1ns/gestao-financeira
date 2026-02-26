@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Illuminate\Container\Attributes\Auth;
+use Illuminate\Database\Eloquent\Casts\AsUri;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -19,7 +23,7 @@ class CategoryController extends Controller
             ->get();
 
         return Inertia::render('Categories/Index', [
-            'categories' => $categories
+            'categories' => $categories,
         ]);
     }
 

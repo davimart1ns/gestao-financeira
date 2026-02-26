@@ -3,6 +3,7 @@ export interface Category{
     name: string
     color: string
     type: 'income' | 'expense'
+    transactions_count?: number
     created_at: string
     updated_at: string
 }

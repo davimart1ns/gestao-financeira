@@ -2,7 +2,7 @@ import { Head, router, useForm, usePage } from "@inertiajs/react";
 import AppLayout from '@/layouts/app-layout';
 import { Account } from "@/types/Account";
 import { useState, useEffect } from "react";
-import AccountCard from "@/components/AccountCard"; 
+import AccountCard from "@/components/AccountCard";
 import AccountModal from "@/components/AccountModal";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,10 +24,15 @@ export default function Index({ accounts }: Props) {
 
     useEffect(() => {
         if (flash.success) {
-            setSuccessMessage(success);
-            setShowSuccess(true);
-            const timer = setTimeout(() => setShowSuccess(false), 3000);
-            return () => clearTimeout(timer);
+            setSuccessMessage(flash.success)
+            setShowSuccess(true)
+
+            // esconder a mensagem apos 5 segundos
+            const timer = setTimeout(() => {
+                setShowSuccess(false)
+            }, 5000)
+
+            return () => clearTimeout(timer)
         }
     }, [flash.success])
 
@@ -52,7 +57,7 @@ export default function Index({ accounts }: Props) {
     }
 
     function submit(e: React.FormEvent) {
-        e.preventDefault(); 
+        e.preventDefault();
         if (editingAccount) {
             put(route('accounts.update', editingAccount.id), {
                 onSuccess: () => {
@@ -120,8 +125,6 @@ export default function Index({ accounts }: Props) {
                         ))}
                     </div>
                 )}
-
-
 
                 <AccountModal
                     isOpen={isOpen}

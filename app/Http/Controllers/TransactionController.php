@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Transaction;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TransactionController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
