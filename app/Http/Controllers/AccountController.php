@@ -19,7 +19,7 @@ class AccountController extends Controller
     public function index()
     {
         $accounts = auth()->user()->accounts()
-            ->withSum('transactions as total_balance', 'amount')
+            ->withSum('transactions as current_balance', 'amount')
             ->get();
 
         return Inertia::render('Accounts/Index', [

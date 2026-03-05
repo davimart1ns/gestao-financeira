@@ -19,14 +19,14 @@ class TransactionController extends Controller
     public function index(Request $request, Account $account)
     {
         $transactions = $account->transactions()
-        ->with('category')
-        ->orderBy('date', 'desc')
-        ->paginate(15);
+            ->with('category')
+            ->orderBy('date', 'desc')
+            ->paginate(15);
 
         return Inertia::render('Transactions/Index', [
             'account' => $account,
             'transactions' => $transactions,
-            'category' => Category::where('user_id', auth()->id())->get()
+            'categories' => Category::where('user_id', auth()->id())->get()
         ]);
     }
 
@@ -41,7 +41,7 @@ class TransactionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Account $account)
     {
         $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',
@@ -51,7 +51,16 @@ class TransactionController extends Controller
             'date' => 'required|date',
         ]);
 
-        $transaction = auth()->user()->accounts()->transactions()->create($validated);
+        $transaction = $account->transactions()->create([
+            ...$validated,
+            'user_id' => auth()->id(),
+        ]);
+
+        if ($transaction->type === 'income') {
+            $account->increment('initial_balance', $transaction->amount);
+        } else {
+            $account->decrement('initial_balance', $transaction->amount);
+        }
 
         return redirect()->back()->with('success', 'Transação registrada!');
     }
@@ -75,17 +84,17 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Transaction $transaction)
+    public function update(Request $request, Account $account, Transaction $transaction)
     {
         $this->authorize('update', $transaction);
 
         $validated = $request->validate(
             [
-            'category_id' => 'required|exists:categories,id',
-            'amount' => 'required|numeric|min:0.01',
-            'description' => 'required|string|max:255',
-            'type' => 'required|in:income,expense',
-            'date' => 'required|date',
+                'category_id' => 'required|exists:categories,id',
+                'amount' => 'required|numeric|min:0.01',
+                'description' => 'required|string|max:255',
+                'type' => 'required|in:income,expense',
+                'date' => 'required|date',
             ]
         );
 
@@ -97,7 +106,7 @@ class TransactionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Transaction $transaction)
+    public function destroy(Account $account, Transaction $transaction)
     {
         $this->authorize('delete', $transaction);
 
