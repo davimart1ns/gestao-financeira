@@ -56,11 +56,7 @@ class TransactionController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        if ($transaction->type === 'income') {
-            $account->increment('initial_balance', $transaction->amount);
-        } else {
-            $account->decrement('initial_balance', $transaction->amount);
-        }
+        $this->updateAccountBalance($account, $transaction);
 
         return redirect()->back()->with('success', 'Transação registrada!');
     }
@@ -98,7 +94,11 @@ class TransactionController extends Controller
             ]
         );
 
+        $this->revertAccountBalance($account, $transaction);
+
         $transaction->update($validated);
+
+        $this->updateAccountBalance($account, $transaction);
 
         return redirect()->back()->with('success', 'Transação atualizada!');
     }
@@ -110,8 +110,27 @@ class TransactionController extends Controller
     {
         $this->authorize('delete', $transaction);
 
+        $this->revertAccountBalance($account, $transaction);
+
         $transaction->delete();
 
         return redirect()->back()->with('success', 'Transação deletada!');
+    }
+
+    public function updateAccountBalance(Account $account, Transaction $transaction)
+    {
+        if ($transaction->type === 'income') {
+            $account->increment('initial_balance', $transaction->amount);
+        } else {
+            $account->decrement('initial_balance', $transaction->amount);
+        }
+    }
+
+    public function revertAccountBalance(Account $account, Transaction $transaction) {
+        if ($transaction->type === 'income') {
+            $account->decrement('initial_balance', $transaction->amount);
+        } else {
+            $account->increment('initial_balance', $transaction->amount);
+        }
     }
 }
